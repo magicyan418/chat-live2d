@@ -1,0 +1,47 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "米雪儿.moc3",
+		"Textures": [
+			"米雪儿.8192/texture_00.png"
+		],
+		"Physics": "米雪儿.physics3.json",
+		"DisplayInfo": "米雪儿.cdi3.json",
+		"Expressions": [
+			{"Name": "QQ", "File": "QQ.exp3.json"},
+			{"Name": "激动", "File": "激动.exp3.json"},
+			{"Name": "龇牙", "File": "龇牙.exp3.json"},
+			{"Name": "叹气", "File": "叹气.exp3.json"},
+			{"Name": "墨镜", "File": "墨镜.exp3.json"},
+			{"Name": "手", "File": "手.exp3.json"},
+			{"Name": "智慧眼睛", "File": "智慧眼睛.exp3.json"},
+			{"Name": "比耶", "File": "比耶.exp3.json"},
+			{"Name": "汗", "File": "汗.exp3.json"},
+			{"Name": "游戏手", "File": "游戏手.exp3.json"},
+			{"Name": "激动2", "File": "激动2.exp3.json"},
+			{"Name": "激动（哭）", "File": "激动（哭）.exp3.json"},
+			{"Name": "激动（正常）", "File": "激动（正常）.exp3.json"},
+			{"Name": "痴痴嘴", "File": "痴痴嘴.exp3.json"},
+			{"Name": "腿", "File": "腿.exp3.json"},
+			{"Name": "阴暗脸", "File": "阴暗脸.exp3.json"},
+			{"Name": "鞋子袜子", "File": "鞋子袜子.exp3.json"},
+			{"Name": "3口型", "File": "3口型.exp3.json"},
+			{"Name": "ys", "File": "ys.exp3.json"},
+			{"Name": "yx", "File": "yx.exp3.json"},
+			{"Name": "z's", "File": "z's.exp3.json"},
+			{"Name": "zx", "File": "zx.exp3.json"}
+		]
+	},
+	"Groups": [
+		{
+			"Target": "Parameter",
+			"Name": "EyeBlink",
+			"Ids": []
+		},
+		{
+			"Target": "Parameter",
+			"Name": "LipSync",
+			"Ids": []
+		}
+	]
+}
