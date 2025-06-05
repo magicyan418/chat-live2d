@@ -5,28 +5,47 @@ export interface ChatMessage {
   text: string;
   isUser: boolean;
   timestamp: Date;
+  modelName?: string;
 }
 
-interface ChatState {
+export interface ChatState {
   messages: ChatMessage[];
   inputMessage: string;
   isRecording: boolean;
   
+  modelMessagesMap: Record<string, ChatMessage[]>;
+  
   setInputMessage: (message: string) => void;
-  setIsRecording: (recording: boolean) => void;
+  setIsRecording: (isRecording: boolean) => void;
   addMessage: (message: ChatMessage) => void;
   clearMessages: () => void;
+  
+  getMessagesByModel: (modelName: string) => ChatMessage[] | null;
+  setMessagesForModel: (modelName: string, messages: ChatMessage[]) => void;
 }
 
-export const useChatStore = create<ChatState>((set) => ({
+export const useChatStore = create<ChatState>((set, get) => ({
   messages: [],
   inputMessage: "",
   isRecording: false,
+  modelMessagesMap: {},
   
   setInputMessage: (message) => set({ inputMessage: message }),
-  setIsRecording: (recording) => set({ isRecording: recording }),
+  setIsRecording: (isRecording) => set({ isRecording }),
   addMessage: (message) => set((state) => ({ 
     messages: [...state.messages, message] 
   })),
-  clearMessages: () => set({ messages: [] })
+  clearMessages: () => set({ messages: [] }),
+  
+  getMessagesByModel: (modelName) => {
+    const { modelMessagesMap } = get();
+    return modelMessagesMap[modelName] || null;
+  },
+  
+  setMessagesForModel: (modelName, messages) => set((state) => ({
+    modelMessagesMap: {
+      ...state.modelMessagesMap,
+      [modelName]: [...messages]
+    }
+  }))
 }));

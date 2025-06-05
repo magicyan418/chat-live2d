@@ -2,10 +2,47 @@ import { create } from 'zustand';
 
 // 模型嘴巴参数映射
 const MODEL_MOUTH_PARAM_MAP: Record<string, string> = {
-  "米雪儿": "ParamMouthOpenY8",
+  "米雪儿": "ParamMouthOpenY9",
   "小恶魔": "ParamMouthOpenY",
   // 可以添加更多模型的映射
   "default": "ParamMouthOpenY"
+};
+
+// TTS语音配置
+export interface TTSVoiceConfig {
+  voiceName: string;    // 语音名称
+  pitch: number;        // 音调 (-100 到 100)
+  rate: number;         // 语速 (0.5 到 2)
+  style?: string;       // 语音风格 (可选)
+  styleDegree?: number; // 风格强度 (0 到 2，可选)
+  volume?: number;      // 音量 (0 到 100，可选)
+}
+
+// 模型TTS语音映射
+const MODEL_TTS_VOICE_MAP: Record<string, TTSVoiceConfig> = {
+  "米雪儿": {
+    voiceName: "zh-CN-XiaoshuangNeural", // 小女孩音色，可爱活泼
+    pitch: 15,                       // 提高音调，更符合小女孩
+    rate: 1.1,                       // 稍快的语速
+    style: "cheerful",               // 欢快的风格
+    styleDegree: 1.2,                // 风格强度适中
+    volume: 100                      // 音量
+  },
+  "小恶魔": {
+    voiceName: "zh-CN-XiaoyiNeural", // 活泼女声
+    pitch: 5,                            // 略微提高音调
+    rate: 1.05,                          // 正常语速
+    style: "cute",                       // 可爱的风格
+    styleDegree: 1.3,                    // 风格强度较高
+    volume: 100                          // 音量
+  },
+  // 默认语音设置
+  "default": {
+    voiceName: "zh-CN-XiaoxiaoNeural",   // 标准少女音色
+    pitch: 0,
+    rate: 1.0,
+    volume: 100
+  }
 };
 
 // 模型配置映射（添加缩放和位置配置）
@@ -49,6 +86,10 @@ interface Live2DState {
   getMouthParam: () => string;
   // 获取模型配置
   getModelConfig: (modelName?: string) => ModelConfig;
+  // 获取TTS语音配置
+  getTTSVoiceConfig: (modelName?: string) => TTSVoiceConfig;
+  // 生成SSML标记
+  generateSSML: (text: string, modelName?: string) => string;
 }
 
 export const useLive2DStore = create<Live2DState>((set, get) => ({
@@ -78,5 +119,35 @@ export const useLive2DStore = create<Live2DState>((set, get) => ({
   getModelConfig: (modelName) => {
     const name = modelName || get().currentModel;
     return MODEL_CONFIG_MAP[name] || MODEL_CONFIG_MAP.default;
+  },
+  
+  // 获取TTS语音配置
+  getTTSVoiceConfig: (modelName) => {
+    const name = modelName || get().currentModel;
+    return MODEL_TTS_VOICE_MAP[name] || MODEL_TTS_VOICE_MAP.default;
+  },
+  
+  // 生成SSML标记
+  generateSSML: (text, modelName) => {
+    const voiceConfig = get().getTTSVoiceConfig(modelName);
+    let ssmlContent = "";
+    
+    if (voiceConfig.style) {
+      ssmlContent = `
+        <mstts:express-as style="${voiceConfig.style}" styledegree="${voiceConfig.styleDegree}">
+          <prosody pitch="${voiceConfig.pitch}%" rate="${voiceConfig.rate}" volume="${voiceConfig.volume}%">
+            ${text}
+          </prosody>
+        </mstts:express-as>
+      `;
+    } else {
+      ssmlContent = `
+        <prosody pitch="${voiceConfig.pitch}%" rate="${voiceConfig.rate}" volume="${voiceConfig.volume}%">
+          ${text}
+        </prosody>
+      `;
+    }
+    
+    return ssmlContent;
   }
 }));

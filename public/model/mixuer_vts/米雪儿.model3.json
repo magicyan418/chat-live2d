@@ -24,12 +24,7 @@
 			{"Name": "痴痴嘴", "File": "痴痴嘴.exp3.json"},
 			{"Name": "腿", "File": "腿.exp3.json"},
 			{"Name": "阴暗脸", "File": "阴暗脸.exp3.json"},
-			{"Name": "鞋子袜子", "File": "鞋子袜子.exp3.json"},
-			{"Name": "3口型", "File": "3口型.exp3.json"},
-			{"Name": "ys", "File": "ys.exp3.json"},
-			{"Name": "yx", "File": "yx.exp3.json"},
-			{"Name": "z's", "File": "z's.exp3.json"},
-			{"Name": "zx", "File": "zx.exp3.json"}
+			{"Name": "鞋子袜子", "File": "鞋子袜子.exp3.json"}
 		]
 	},
 	"Groups": [
