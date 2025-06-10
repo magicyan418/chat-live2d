@@ -145,7 +145,7 @@ export default function Live2DViewer({ modelPath }: ModelProps) {
 
       try {
         // Load Cubism script first
-        await loadCubismScript();
+        // await loadCubismScript();
 
         if (!(window as any).Live2DCubismCore) {
           console.error(
