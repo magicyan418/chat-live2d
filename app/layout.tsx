@@ -26,10 +26,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <head>
-        <script
-          src="/live2d/live2dcubismcore.min.js"
-          defer
-        ></script>
+        <script src="/live2d/live2dcubismcore.min.js"></script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
