@@ -11,39 +11,6 @@ if (typeof window !== "undefined") {
   (window as any).PIXI = PIXI;
 }
 
-// 动态加载 Live2D Cubism Runtime，并手动挂载到 window
-const loadCubismScript = (): Promise<void> => {
-  return new Promise((resolve, reject) => {
-    if ((window as any).Live2DCubismCore) {
-      resolve();
-      return;
-    }
-
-    const script = document.createElement("script");
-    script.src = "/live2d/live2dcubismcore.min.js";
-    script.async = true;
-    script.onload = () => {
-      // ✅ 强制挂载
-      if ((window as any).Live2DCubismCore == null) {
-        // 如果还是 undefined，尝试从全局模块中取出（某些版本未自动挂载）
-        try {
-          const globalVar = (globalThis as any).Live2DCubismCore;
-          if (globalVar) {
-            (window as any).Live2DCubismCore = globalVar;
-          }
-        } catch (e) {
-          console.error("Cubism script loaded but Live2DCubismCore not found.");
-          reject();
-          return;
-        }
-      }
-      resolve();
-    };
-    script.onerror = reject;
-    document.head.appendChild(script);
-  });
-};
-
 interface ModelProps {
   modelPath?: string;
 }
@@ -144,8 +111,6 @@ export default function Live2DViewer({ modelPath }: ModelProps) {
       if (!canvasRef.current || isInitialized) return;
 
       try {
-        // Load Cubism script first
-        // await loadCubismScript();
 
         if (!(window as any).Live2DCubismCore) {
           console.error(
