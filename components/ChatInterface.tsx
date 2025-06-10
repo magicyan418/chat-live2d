@@ -86,39 +86,49 @@ function PasswordInput({
     } as React.ChangeEvent<HTMLInputElement>);
   };
 
+  // 生成掩码文本，使用点而不是星号，避免触发浏览器的密码识别
+  const getMaskedValue = () => {
+    return showPassword ? value : value.replace(/./g, '•');
+  };
+
   return (
     <div className="relative w-full">
       <Input
         ref={inputRef}
         id={id}
-        type={showPassword ? "text" : "password"}
-        value={value}
+        type="text" 
+        value={getMaskedValue()}
         onChange={onChange}
         onPaste={handlePaste}
         placeholder={placeholder}
         className={className}
         autoComplete={autoComplete}
+        style={{ 
+          fontFamily: 'monospace',
+          paddingRight: '40px', // 为按钮留出足够空间
+        }}
       />
-      {value && (
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-          onClick={() => setShowPassword(!showPassword)}
-          tabIndex={-1}
-          style={{ maxWidth: '40px' }}
-        >
-          {showPassword ? (
-            <EyeOff className="h-4 w-4 text-gray-500" />
-          ) : (
-            <Eye className="h-4 w-4 text-gray-500" />
-          )}
-          <span className="sr-only">
-            {showPassword ? "隐藏密钥" : "显示密钥"}
-          </span>
-        </Button>
-      )}
+      <Button
+        type="button"
+        variant="ghost"
+        size="icon"
+        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+        onClick={() => setShowPassword(!showPassword)}
+        tabIndex={-1}
+        style={{ 
+          maxWidth: '40px',
+          zIndex: 10 // 确保按钮在最上层
+        }}
+      >
+        {showPassword ? (
+          <EyeOff className="h-4 w-4 text-gray-500" />
+        ) : (
+          <Eye className="h-4 w-4 text-gray-500" />
+        )}
+        <span className="sr-only">
+          {showPassword ? "隐藏密钥" : "显示密钥"}
+        </span>
+      </Button>
     </div>
   );
 }
