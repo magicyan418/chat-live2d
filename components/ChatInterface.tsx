@@ -243,7 +243,7 @@ function ApiKeyDialog({
               />
             </div>
             <p className="text-xs text-muted-foreground col-span-4">
-              此密钥为可选，不提供将无法使用语音功能
+              此密钥为可选，不提供将无法使用语音功能（EastAsia区域）
             </p>
           </div>
           <div className="h-5">
